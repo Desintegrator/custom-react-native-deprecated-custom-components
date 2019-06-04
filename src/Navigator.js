@@ -807,6 +807,10 @@ var Navigator = createReactClass({
       return;
     }
     var releaseGesture = sceneConfig.gestures[releaseGestureAction];
+    if (!releaseGesture) {
+      // no gesture for this action
+      return;
+    }
     var destIndex = this.state.presentedIndex + this._deltaForGestureAction(this.state.activeGesture);
     if (this.spring.getCurrentValue() === 0) {
       // The spring is at zero, so the gesture is already complete
@@ -912,6 +916,8 @@ var Navigator = createReactClass({
   },
 
   _moveAttachedGesture: function(gesture, gestureState) {
+    if (!gesture || !gestureState)
+      return
     var isTravelVertical = gesture.direction === 'top-to-bottom' || gesture.direction === 'bottom-to-top';
     var isTravelInverted = gesture.direction === 'right-to-left' || gesture.direction === 'bottom-to-top';
     var distance = isTravelVertical ? gestureState.dy : gestureState.dx;
